@@ -4,18 +4,27 @@
          (prefix-in : parser-tools/lex-sre))
 
 (provide (except-out (all-defined-out)
-                     main))
-(define (main)
+                     lex-test))
+
+;(define-syntax (show stx)
+;  (syntax-case stx ()
+;    [(_ x) #`(let ([y x])
+;               (printf "~a = ~a~%"
+;                       #,(format "~a" (syntax->datum #'x))
+;                       y)
+;               y)]))
+
+;;; Run the lexer over a test file
+(define (lex-test)
   (with-input-from-file "test.music"
     (thunk
-      (let loop ((a (lex (current-input-port))))
-        (unless (and (eq? a 'eof)
-                     (begin (display 'eof)
-                            (newline)
-                            #t))
-          (write a)
+      (let loop ([tok (lex (current-input-port))])
+        (unless (and (position-token? tok)
+                     (equal? (position-token-token tok) (token-EOF)))
+          (write tok)
           (newline)
-          (loop (lex (current-input-port))))))))
+          (loop (lex (current-input-port)))))
+      (displayln 'eof))))
 
 (define-tokens music-tokens
   (;; Numeric
@@ -86,10 +95,7 @@
                        #\!
                        #\?))])
 
-(define (lex port)
-  (lex-f port))
-
-(define lex-f
+(define lex
   (lexer-src-pos
     [(eof)
      (token-EOF)]
