@@ -7,4 +7,3 @@
 (contracted [run-pass (-> syn-expr?
                           def-table/c
                           pass-val?)])
-

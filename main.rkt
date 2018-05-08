@@ -27,7 +27,6 @@
               
               #:args
               ([file (current-input-port)])
-              
               (open-input-file file)))
 
 (define impl
@@ -58,4 +57,3 @@
 
 (close-input-port (input-port))
 (close-output-port (output-port))
-
