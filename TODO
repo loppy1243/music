@@ -1,0 +1,38 @@
+//// TODO:
+
+== Refactor
+- Make a collection for this
+
+== Feature
+? Runtime typing as needed
+- Work in file positions to errors
+
+== Fix
+- Unify function and general ids
+? Fix the type-checking of function arguments
+
+//// Done:
+
+== Refactor
+- Change all names to represent the fact that macros are actually functions
+- Rework the handling of types
+- Rework errors to use exceptions/to be cleaner
+- Replace various stacks with parameters
+- Move def-table into its own file and make accessor functions
+- Instead of do-everything-in-one-fell-swoop, create different passes
+  - Possibly splitting them into their own files.
+- Make run-prog/exp nicer
+- Change pseudo-asm model to use one stack, for simplicity's sake
+  - To that end, have (conceptually) one push op and one pop op
+
+== Feature
+- Make function/macro marks less generic
+- Create a unit signature for backends to import so they know they have everything needed
+  implemented.
+
+== Fix
+! Change pseudo-assembly to create and call functions a la x86 instead of explicitly pushing
+  return addresses.
+- Change exp-rep-arg to work with list of registers correctly
+! Segfault with assembly backend
+

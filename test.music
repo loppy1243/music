@@ -1,0 +1,26 @@
+O(0) S(120) T(q)
+
+DEFINE ,scale('key: KEY) {
+  K(|'key|) O(0)
+
+  IF K IS C {
+    Ch Dq Eq Fq Gq O+
+      Aq Bq Ch Bq Aq O-
+    Gq Fq Eq Dq Cw
+  }
+  ELIF K IS Bb {
+    Bh Cq Dq Eq Fq Gq O+
+      Aq Bh Aq O-
+    Gq Fq Eq Dq Cq Bw
+  }
+}
+
+|: IF O == 0 {
+     |,scale(Bb)|
+     O+
+   }
+   ELSE {
+     O-
+     |,scale(C)|
+   }
+:|

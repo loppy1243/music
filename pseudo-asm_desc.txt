@@ -1,0 +1,81 @@
+;;;-------------------------------------------------------------------------------------------------
+;;; Memory
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;;;;;;;;;;;;;
+;;; Registers
+;;;-----------
+
+reg(n)  -- nth scratch register, e.g. reg1
+areg(n) -- nth function argument register
+rval    -- Function return value register
+recnt   -- Repeat count register
+
+;;;;;;;;;;;;;;;
+;;; Enviroment
+;;;------------
+
+K -- Key, in half steps from A (i.e., A is 0, Bb is 1, B is 2, etc.)
+O -- Octave, where 0 is the octave of A4
+T -- Time signature, in number of 64th notes in 1 beat
+S -- Tempo (Speed), in beats per minute
+
+;;;;;;;;;;;
+;;; Stacks
+;;;--------
+
+stack -- The one and only
+
+;;;-------------------------------------------------------------------------------------------------
+;;; Operations
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+------------------------------------------------------
+Here, the following convention is used for arguments:
+
+  i -- Integer
+  m -- Mark; represents the location of an operation
+  r -- Register
+  e -- Enviroment variable
+------------------------------------------------------
+
+ret                     -- Jump to mark on the top of the stack
+push       (i)          -- Push i onto the stack
+push       (r)          -- Push r onto the stack
+push       (e)          -- Push e onto the stack
+push       (m)          -- Push m onto the stack
+pop        (r)          -- Pop the stack into r
+pop        (e)          -- Pop the stack into e
+pop                     -- Pop the stack
+mov        (r, i)       -- Move i into r
+mov        (r1, r2)     -- Move the contents of r2 into r1
+inc        (r)          -- Increment the contents of r
+swap       (r1, r2)     -- Swap the contents of r1 and r2
+call       (m)          -- Push the mark directly after this op onto the stack and then jump to m
+jump       (m)          -- Jump to m
+jump=      (r1, r2, m)  -- Jump to m if the contents of r1 and r2 are equal
+jump!=     (r1, r2, m)  -- Jump to m if the contents of r1 and r2 are not equal
+jump<      (r1, r2, m)  -- Jump to m if the contents of r1 are less than the contents of r2
+jump>      (r1, r2, m)  -- Jump to m if the contents of r1 are greater than the contents of r2
+jump<=     (r1, r2, m)  -- Jump to m if the contents of r1 are less than or equal to the contents of
+                           r2
+jump>=     (r1, r2, m)  -- Jump to m if the contents of r1 are greater than or equal to the contents
+                           of r2
+note                    -- Call the note function
+cmd                     -- Call the cmd function
+cmd-val                 -- Call the cmd-val function
+
+;;;-------------------------------------------------------------------------------------------------
+;;; Functions that Must be Provided
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+note(i1, i2, i3) -- -| If i2 is 1, then play for duration of i3 64th notes the note i1 half-steps
+                       away from A4
+                    -| If i2 is 0, then account for K
+
+cmd(i1, i2, i3)  -- -| If i3 is 0, set i1 (1->K, 2->O, 3->T, 4->S) to i2
+                    -| If i3 is 1, increment i1 by i2
+                    -| If i3 is -1, decrement i1 by i2
+
+cmd-val(i1)      -- Return the current value of command i1
+
