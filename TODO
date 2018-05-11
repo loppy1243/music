@@ -1,6 +1,6 @@
 //// TODO:
 
-== Add README
+== Remove necessity of gcc, beep. Also possibly sox.
 
 == Refactor
 - Make a collection for this
@@ -38,3 +38,4 @@
 - Change exp-rep-arg to work with list of registers correctly
 ! Segfault with assembly backend
 
+== Add README
